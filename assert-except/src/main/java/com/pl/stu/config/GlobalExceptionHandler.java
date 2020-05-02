@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
  * @Description 全局异常处理
  * @Version 1.0
  */
-@Component
 @ControllerAdvice
 @ConditionalOnWebApplication
 @Slf4j
@@ -33,7 +32,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BaseException.class)
     @ResponseBody
-    public Response busErrorException(HttpServletRequest request, BaseException e) {
+    public Response busErrorException(BaseException e) {
         return Response.error(e.getCode(), e.getMsg());
     }
 
@@ -49,20 +48,12 @@ public class GlobalExceptionHandler {
         return wrapperBindingResult(e.getBindingResult());
     }
 
-
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    @ResponseBody
-    public Response httpRequestMethodNotSupportedExceptionHandler(HttpServletRequest request, IllegalArgumentException exception) {
-        return null;
-    }
-
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Response exceptionHandler(HttpServletRequest request, Exception ex) {
         log.error("GlobalException Catch Exception ：{}", ex.getMessage(), ex);
-        return null;
+        return Response.error(ResponseEnum.SYSTEM_ERROR.getCode(), ResponseEnum.SYSTEM_ERROR.getMsg());
     }
-
 
     private Response wrapperBindingResult(BindingResult bindingResult) {
         StringBuilder msg = new StringBuilder();
@@ -78,6 +69,4 @@ public class GlobalExceptionHandler {
 
         return Response.error(ResponseEnum.VALID_ERROR.getCode(), msg.substring(2));
     }
-
-
 }

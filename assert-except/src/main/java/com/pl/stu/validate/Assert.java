@@ -9,7 +9,7 @@ import com.pl.stu.exception.BaseException;
  * @Date: 2020/5/1 22:29
  * @Version V1.0
  */
-public interface BaseAssert {
+public interface Assert {
 
     BaseException ofException(Object... args);
 
@@ -25,6 +25,12 @@ public interface BaseAssert {
         }
     }
 
+    default void isAnyBlank(CharSequence... css){
+        if(StrUtils.isAnyBlank(css)){
+            throw  ofException();
+        }
+    }
+
     default void isTrue(boolean expression, Object... args) {
         if (!expression) {
             throw ofException(args);
@@ -36,5 +42,4 @@ public interface BaseAssert {
             throw ofException(args);
         }
     }
-
 }

@@ -18,11 +18,13 @@ public class UserRegistService {
 
     public Response regist(String usname, String pwd) {
 
+        ResponseEnum.PARAM_EMPTY_ERROR.isAnyBlank(usname, pwd);
+
         boolean exist = "abc".equalsIgnoreCase(usname);
-        ResponseEnum.USER_EXITS.isFalse(exist);
+        ResponseEnum.USER_EXITS.isTrue(!exist);
 
         boolean weakPass = Pattern.matches(".*[A-Za-z0-9]+.*", pwd);
-        ResponseEnum.PASS_STRENGTH_LOW.isFalse(weakPass);
+        ResponseEnum.PASS_STRENGTH_LOW.isTrue(!weakPass);
 
         return Response.ok();
     }

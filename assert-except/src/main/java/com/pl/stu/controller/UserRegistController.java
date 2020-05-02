@@ -20,7 +20,7 @@ public class UserRegistController {
     private UserRegistService registService;
 
     @GetMapping("/user/regist")
-    public Response regist(@RequestParam String usname, @RequestParam String pwd) {
+    public Response regist(@RequestParam String usname, @RequestParam(required = false) String pwd) {
         return registService.regist(usname, pwd);
     }
 }
